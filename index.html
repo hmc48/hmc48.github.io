@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <!-- GA4の計測タグ -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R23Q109BZT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-R23Q109BZT');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医療、介護施設の地図検索ナビ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --secondary-color: #ebf2ff;
+            --accent-color: #4a90e2;
+            --text-color: #333;
+            --bg-color: #f0f4f8;
+            --footer-bg: #2c3e50;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ヘッダー */
+        header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 15px 30px;
+            }
+        }
+
+        .logo { font-size: 20px; font-weight: bold; color: var(--primary-color); cursor: pointer; white-space: nowrap; }
+        
+        nav { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 15px; 
+            margin: 0; 
+            padding: 5px 0; 
+            justify-content: center;
+        }
+        
+        @media (min-width: 768px) {
+            nav { width: auto; }
+            nav ul { gap: 20px; }
+        }
+
+        nav a { 
+            text-decoration: none; 
+            color: var(--text-color); 
+            font-size: 13px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            white-space: nowrap;
+            padding: 5px 2px;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover { color: var(--accent-color); }
+        nav a.active { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
+
+        /* コンテンツエリア */
+        main { flex: 1; padding: 20px 15px; display: flex; justify-content: center; align-items: flex-start; }
+        @media (min-width: 768px) {
+            main { padding: 40px 20px; }
+        }
+
+        .page-content { display: none; width: 100%; max-width: 800px; animation: fadeIn 0.4s ease-out; }
+        .page-content.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* カード型レイアウト */
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            margin: 0 auto 20px;
+        }
+        @media (min-width: 768px) {
+            .card { padding: 40px 30px; border-radius: 20px; }
+        }
+
+        .search-card { max-width: 450px; }
+
+        h1 { font-size: 1.5rem; color: var(--primary-color); margin-top: 0; }
+        h2 { font-size: 1.3rem; color: var(--primary-color); margin-top: 0; }
+        h3 { font-size: 1.1rem; color: var(--accent-color); margin-top: 20px; text-align: left; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        .info-text { text-align: left; line-height: 1.7; color: #555; font-size: 15px; }
+
+        /* 検索パーツ */
+        .select-wrapper { position: relative; margin: 25px 0; }
+        select { 
+            width: 100%; 
+            font-size: 16px; 
+            padding: 12px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 10px; 
+            appearance: none; 
+            background-color: #fff;
+            color: var(--text-color);
+        }
+        .select-wrapper::after { content: "▼"; position: absolute; right: 15px; top: 15px; color: #999; pointer-events: none; font-size: 12px; }
+
+        .btn-action { 
+            width: 100%; 
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); 
+            color: white; 
+            font-size: 18px; 
+            font-weight: bold; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+            transition: opacity 0.2s, transform 0.2s;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-action:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-small { padding: 10px 20px; font-size: 15px; margin-top: 10px; }
+
+        /* フッター */
+        footer { background-color: var(--footer-bg); color: white; padding: 40px 20px 20px; margin-top: 40px; }
+        .footer-grid { display: grid; grid-template-columns: 1fr; gap: 30px; max-width: 1000px; margin: 0 auto; }
+        
+        @media (min-width: 600px) {
+            .footer-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .footer-section h4 { border-left: 4px solid var(--accent-color); padding-left: 10px; margin-bottom: 15px; font-size: 16px; }
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; cursor: pointer; color: #ccc; font-size: 14px; }
+        .footer-links li:hover { color: white; }
+        .copy { text-align: center; color: #888; border-top: 1px solid #444; margin-top: 30px; padding-top: 20px; font-size: 11px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" onclick="showPage('home')">📍 医療、介護施設の地図ナビ</div>
+    <nav>
+        <ul>
+            <li><a onclick="showPage('home')" id="nav-home">HOME</a></li>
+            <li><a onclick="showPage('search')" id="nav-search">地図検索</a></li>
+            <li><a onclick="showPage('guide')" id="nav-guide">ガイド</a></li>
+            <li><a onclick="showPage('stats')" id="nav-stats">統計</a></li>
+            <li><a onclick="showPage('call')" id="nav-call">呼出システム</a></li>
+            <li><a onclick="showPage('types')" id="nav-link_page">リンク集</a></li>
+            <li><a onclick="showPage('contact')" id="nav-contact">利用規約</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="home" class="page-content active">
+        <div class="card">
+            <h1>ようこそ 医療、介護施設の地図ナビへ</h1>
+            <p class="info-text">厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。
+                全国の病院や診療所、歯科、薬局、介護施設などを地図上から手軽に探し出すことができます。
+                また、統計や呼出システムも掲載しています。</p>
+            <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">さっそく検索する</button>
+        </div>
+    </section>
+
+    <section id="search" class="page-content">
+        <div class="card search-card">
+            <h1>地図検索</h1>
+            <p class="info-text" style="text-align: center;">都道府県を選択して地図を表示します。</p>
+            <div class="select-wrapper">
+                <select id="pref">
+                    <option value="">都道府県を選択してください</option>
+                    <optgroup label="北海道・東北"><option value="01">北海道</option><option value="02">青森県</option><option value="03">岩手県</option><option value="04">宮城県</option><option value="05">秋田県</option><option value="06">山形県</option><option value="07">福島県</option></optgroup>
+                    <optgroup label="関東"><option value="08">茨城県</option><option value="09">栃木県</option><option value="10">群馬県</option><option value="11">埼玉県</option><option value="12">千葉県</option><option value="13">東京都</option><option value="14">神奈川県</option></optgroup>
+                    <optgroup label="中部"><option value="15">新潟県</option><option value="16">富山県</option><option value="17">石川県</option><option value="18">福井県</option><option value="19">山梨県</option><option value="20">長野県</option><option value="21">岐阜県</option><option value="22">静岡県</option><option value="23">愛知県</option></optgroup>
+                    <optgroup label="近畿"><option value="24">三重県</option><option value="25">滋賀県</option><option value="26">京都府</option><option value="27">大阪府</option><option value="28">兵庫県</option><option value="29">奈良県</option><option value="30">和歌山県</option></optgroup>
+                    <optgroup label="中国・四国"><option value="31">鳥取県</option><option value="32">島根県</option><option value="33">岡山県</option><option value="34">広島県</option><option value="35">山口県</option><option value="36">徳島県</option><option value="37">香川県</option><option value="38">愛媛県</option><option value="39">高知県</option></optgroup>
+                    <optgroup label="九州・沖縄"><option value="40">福岡県</option><option value="41">佐賀県</option><option value="42">長崎県</option><option value="43">熊本県</option><option value="44">大分県</option><option value="45">宮崎県</option><option value="46">鹿児島県</option><option value="47">沖縄県</option></optgroup>
+                </select>
+            </div>
+            <button type="button" class="btn-action" onclick="openMap()">地図を表示する</button>
+            <p style="margin-top: 15px; font-size: 12px; color: #888;">※パソコンは別タブ、スマホは現在のタブで開きます</p>
+        </div>
+    </section>
+
+    <section id="stats" class="page-content">
+        <div class="card">
+            <h2>医療統計データ</h2>
+            <p class="info-text">医療機関の活動状況や実績に関する統計情報を公開しています。</p>
+        
+            <div style="text-align: left; margin-top: 20px;">
+                <h3>特化型病院</h3>
+                <p class="info-text">一般病床500床以上の病院、療養病床100床以上の病院、精神病床200床以上の病院、結核病床がある病院、感染症病床がある病院のMap</p>
+                <a href="https://hmc48.github.io/hmap99_tokei_202512/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">全国地図を開く</a>
+
+                <h3>DPC統計</h3>
+                <p class="info-text">急性期入院医療の状況を示すDPC（診断群分類別包括評価）のうち、各医療機関のDPC機能係数Ⅱ(2025年6月時点)を比較棒グラフで表示します。</p>
+                <a href="https://hmc48.github.io/hdpc_graph202506/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">DPC比較棒グラフを開く</a>
+                <a href="https://hmc48.github.io/hdpc_graph202506/dpc_ranking202506.pdf" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">DPCランキングPDFを開く</a>
+
+                <h3>救命救急統計</h3>
+                <p class="info-text">救命救急センター充実段階評価の比較（令和6年1月～12月実績）を比較棒グラフで表示します。Max5病院</p>
+                <a href="https://hmc48.github.io/her_graph2025/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">救命救急グラフを開く</a>
+
+                <h3>医療圏統計</h3>
+                <p class="info-text">都道府県を選択して、医療圏別の統計PDFを表示します。</p>
+                <div class="select-wrapper" style="margin: 15px 0;">
+                    <select id="pref-stats">
+                        <option value="">都道府県を選択してください</option>
+                        <optgroup label="北海道・東北"><option value="01">北海道</option><option value="02">青森県</option><option value="03">岩手県</option><option value="04">宮城県</option><option value="05">秋田県</option><option value="06">山形県</option><option value="07">福島県</option></optgroup>
+                        <optgroup label="関東"><option value="08">茨城県</option><option value="09">栃木県</option><option value="10">群馬県</option><option value="11">埼玉県</option><option value="12">千葉県</option><option value="13">東京都</option><option value="14">神奈川県</option></optgroup>
+                        <optgroup label="中部"><option value="15">新潟県</option><option value="16">富山県</option><option value="17">石川県</option><option value="18">福井県</option><option value="19">山梨県</option><option value="20">長野県</option><option value="21">岐阜県</option><option value="22">静岡県</option><option value="23">愛知県</option></optgroup>
+                        <optgroup label="近畿"><option value="24">三重県</option><option value="25">滋賀県</option><option value="26">京都府</option><option value="27">大阪府</option><option value="28">兵庫県</option><option value="29">奈良県</option><option value="30">和歌山県</option></optgroup>
+                        <optgroup label="中国・四国"><option value="31">鳥取県</option><option value="32">島根県</option><option value="33">岡山県</option><option value="34">広島県</option><option value="35">山口県</option><option value="36">徳島県</option><option value="37">香川県</option><option value="38">愛媛県</option><option value="39">高知県</option></optgroup>
+                        <optgroup label="九州・沖縄"><option value="40">福岡県</option><option value="41">佐賀県</option><option value="42">長崎県</option><option value="43">熊本県</option><option value="44">大分県</option><option value="45">宮崎県</option><option value="46">鹿児島県</option><option value="47">沖縄県</option></optgroup>
+                    </select>
+                </div>
+                <button type="button" class="btn-action btn-small" onclick="openIryokenPDF()">医療圏PDFを開く</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="call" class="page-content">
+        <div class="card">
+            <h2>呼出システム</h2>
+            <p class="info-text">VOICEVOX（無料で使える中品質なテキスト読み上げ・歌声合成ソフトウェア）を利用した簡易的な呼出システムです。
+                                 主にスマートフォンから簡単に呼出操作を行い、サブモニターやBluetoothスピーカーを接続することで、手軽にご利用
+                                 環境を構築できます。【音声案内例】「お待たせいたしました。〇〇番でお待ちの方、3番受付までお越しください。」
+                                 定型文以外は、フリー入力（外部サイト）で音声案内も可能です。　</p>
+            <div style="margin-top: 30px;">
+                <a href="https://hmc48.github.io/hmedicall01a/" class="btn-action" target="_blank">呼出システムを開く</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="guide" class="page-content">
+        <div class="card">
+            <h2>利用ガイド</h2>
+            <div class="info-text">
+                <p><b>1. 都道府県を選択</b><br>検索ページから、調べたい都道府県を選んでください。</p>
+                <p><b>2. 地図を開く</b><br>「地図を表示する」ボタンを押すと地図画面に切り替わります。</p>
+                <p><b>3. 施設の選択</b><br>地図上の右上の青色アイコンをタップまたはクリックすると、
+                         地図の種類、境界線・施設種類を選択できます。下にスクロールすると介護施設も表示されます。</p>
+                <p><b>4. マーカーの表示</b><br>地図上に選択した施設がマーカーで表示されます。
+                         地図上のマーカーをタップまたはクリックすると、施設情報が表示されます。</p>
+                <p><b>5. マーカーのリンク</b><br>選択した施設情報には、各施設のホームページ（あれば）、医療・介護ネット
+                         のリンクが表示されます。</p>
+                <p><b>6. 境界線の表示</b><br>各医療圏を選択すると、町などの境界線が表示され、町名や人口が表示されます。</p>
+                <p><b>7. 施設の検索</b><br>地図上の右上の緑色アイコンをタップまたはクリックすると、
+                         施設の検索（and検索）ができます。例：〇〇町　内科　診療所</p>
+                <p><b>8. 案内の表示</b><br>地図上の右上のピンク色アイコンをタップまたはクリックすると、案内が表示されます。</p>
+                <p><b>9. 住所、施設、緯度経度の検索</b><br>地図上の右上のオレンジ色アイコンをタップまたはクリックすると、
+                         住所、施設、緯度経度の検索（and検索）ができます。例：〇〇町　〇〇区役所</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="types" class="page-content">
+        <div class="card">
+            <h2>リンク集</h2>
+            <ul class="info-text">
+                <li>
+                    <b>厚生労働省の検索サイト</b><br> 
+                    <a href="https://www.iryou.teikyouseido.mhlw.go.jp/znk-web/juminkanja/S2300/initialize" target="_blank" rel="noopener noreferrer">
+                        医療情報ネットナビ
+                    </a><br>
+                    <a href="https://www.kaigokensaku.mhlw.go.jp/" target="_blank" rel="noopener noreferrer">
+                        介護事業所・生活関連情報検索
+                    </a>
+                </li>
+                <li>
+                    <b>厚生労働省のオープンデータサイト</b><br> 
+                    <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryou/newpage_43373.html" target="_blank" rel="noopener noreferrer">
+                       医療情報ネットのオープンデータ
+                    </a><br>
+                    <a href="https://www.digital.go.jp/resources/open_data/public_data_license_v1.0" target="_blank" rel="noopener noreferrer">
+                       公共データ利用規約（第1.0版）
+                    </a><br>
+                    <a href="https://www.mhlw.go.jp/stf/kaigo-kouhyou_opendata.html" target="_blank" rel="noopener noreferrer">
+                       介護サービス情報の公表システムデータのオープンデータ
+                    </a><br>
+                    <a href="https://www.mhlw.go.jp/chosakuken/index.html" target="_blank" rel="noopener noreferrer">
+                       利用規約・リンク・著作権等
+                    </a>
+                </li>
+                <li>
+                    <b>各厚生局（厚生労働省）のサイト</b><br> 
+                    <a href="https://kouseikyoku.mhlw.go.jp/hokkaido/gyomu/gyomu/hoken_kikan/code_ichiran.html" target="_blank" rel="noopener noreferrer">
+                       北海道厚生局（北海道）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/tohoku/gyomu/gyomu/hoken_kikan/itiran.html" target=_blank" rel="noopener noreferrer">
+                       東北厚生局（青森 岩手 宮城 秋田 山形 福島）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/kantoshinetsu/chousa/shitei.html" target=_blank" rel="noopener noreferrer">
+                       関東信越厚生局（茨城 栃木 群馬 埼玉 千葉  東京 神奈川 新潟 山梨 長野）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/tokaihokuriku/gyomu/gyomu/hoken_kikan/shitei.html" target=_blank" rel="noopener noreferrer">
+                       東海北陸厚生局（富山 石川 岐阜 静岡 愛知  三重）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/kinki/tyousa/shinkishitei.html" target=_blank" rel="noopener noreferrer">
+                       近畿厚生局（福井 滋賀 Kyoto 大阪 兵庫 奈良 和歌山）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/chugokushikoku/chousaka/iryoukikanshitei.html" target=_blank" rel="noopener noreferrer">
+                       中国四国厚生局（鳥取 島根 岡山 広島 山口）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/shikoku/gyomu/gyomu/hoken_kikan/shitei/index.html" target=_blank" rel="noopener noreferrer">
+                       四国厚生支局（香川 徳島 愛媛 高知 ）
+                    </a><br>
+                    <a href="https://kouseikyoku.mhlw.go.jp/kyushu/gyomu/gyomu/hoken_kikan/index_00004.html" target="_blank" rel="noopener noreferrer">
+                       九州厚生局（福岡 佐賀 長崎 熊本 大分 宮崎 鹿児島 沖縄 ）
+                    </a>
+                </li>
+                <li>
+                    <b>医療・介護関係のその他サイト</b><br> 
+                    <a href="https://data.e-gov.go.jp/data/dataset/mhlw_20150115_0041/resource/9e27be82-2570-4018-95cf-fb2c5975d69f" target=_blank" rel="noopener noreferrer">
+                       全国の二次医療圏（e-GOV データポータル）
+                    </a><br>
+                    <a href="https://www.e-stat.go.jp/stat-search/database?page=1&toukei=00200521&tstat=000001136464" target="_blank" rel="noopener noreferrer">
+                       e-Stat国勢調査2020年
+                    </a><br>
+                    <a href="https://www.mhlw.go.jp/content/10808000/001487164.pdf" target="_blank" rel="noopener noreferrer">
+                       DPC機能評価係数Ⅱ及び救急補正係数の内訳（医療機関別）令和7年6月1日時点
+                    </a><br>
+                    <a href="https://www.mhlw.go.jp/stf/newpage_57088.html" target="_blank" rel="noopener noreferrer">
+                       救命救急センターの充実段階調査結果（令和６年）
+                    </a>
+                </li>
+                <li>
+                    <b>その他サイト</b><br> 
+                    <a href="https://koshien.hanshin.co.jp/highschool/" target=_blank" rel="noopener noreferrer">
+                       阪神甲子園球場 高校野球情報
+                    </a><br>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact" class="page-content">
+        <div class="card">
+            <h2>利用規約（地図関係、呼出システム）</h2>
+            <div class="info-text">
+                <p>このページに掲載しているツール（以下「本ツール」といいます）は、非商用目的でのみご利用いただけます。（呼出システムは除く）
+                   以下の条件にご同意の上、ご利用ください。</p>
+                <p>1.利用条件（呼出システムは除く）<br>
+                   本ツールは、私的利用または教育目的、掲載された施設内での連携業務に限り使用できます。
+                   営利目的での利用、転載、販売、再配布は禁止します。</p>
+                <p>2. ダウンロードと共有の制限<br>
+                   本ツールの配布ファイル（Googleドライブ等にアップロードされたファイルを含む）のURLを
+                   第三者に共有することは禁止します。
+                   本ツールを改変した上での再配布は禁止します。</p>
+                <p>3. ダウンロードファイル（HTML等）の取り扱いについて<br>
+                   ダウンロードされたHTMLファイルは、私的利用または教育目的の範囲内でのみご使用いただけます。
+                   HTMLファイルの内容を無断で改変・再配布・再アップロードすることは禁止します。
+                   HTMLファイルを第三者へ提供・販売・営利目的で使用することを禁止します。
+                   ダウンロードファイルの使用により発生したいかなる損害についても、制作者は一切の責任を負いません。</p>
+                <p>4.免責事項<br>
+                   本ツールの利用により生じたいかなる損害についても、制作者は一切の責任を負いません。
+                   動作の正確性や安全性について保証するものではありません。</p>
+                <p>5.著作権<br>
+                   本ツールおよび掲載されているすべてのコンテンツの著作権は、制作者に帰属します。</p>
+                <p>6.利用規約の変更<br>
+                   本利用規約は、事前の予告なく変更される場合があります。</p>
+                <p>7. お問い合わせ
+                   本ツールに関するご質問・お問い合わせは、以下のメールアドレスまでご連絡ください。
+                   問合せ内容によっては回答出来ない場合もございますので予めご了承願います。
+                   また、回答に日数がかかる場合がございますので予めご了承願います。</p>
+                <p>制作者名：Mana48FanClub<br>
+                   メールアドレス：mana48.hmc.club001@ymail.ne.jp<br>
+                   最終更新日：2026年2月</p>
+            </div>
+        </div>
+        </section>
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h4>メニュー</h4>
+            <ul class="footer-links">
+                <li onclick="showPage('home')">ホーム</li>
+                <li onclick="showPage('search')">地図検索</li>
+                <li onclick="showPage('guide')">利用ガイド</li>
+                <li onclick="showPage('stats')">統計</li>
+                <li><a onclick="showPage('call')" id="nav-call">呼出システム</a></li>
+                <li><a onclick="showPage('types')" id="nav-link_page">リンク集</a></li>
+                <li><a onclick="showPage('contact')" id="nav-contact">利用規約</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>関連リンク</h4>
+            <ul class="footer-links">
+                <li><a href="https://www.iryou.teikyouseido.mhlw.go.jp/znk-web/juminkanja/S2300/initialize" target="_blank" style="color:inherit; text-decoration:none;">医療情報ネットナビ（厚生労働省）</a></li>
+                <li><a href="https://www.kaigokensaku.mhlw.go.jp/" target="_blank" style="color:inherit; text-decoration:none;">介護事業所・生活関連情報検索（厚生労働省）</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>お問い合わせ先</h4>
+            <p style="font-size: 14px;">Created by：Mana48FanClub</p>
+            <p style="font-size: 14px;">Mail：mana48.hmc.club001@ymail.ne.jp</p>
+        </div>
+    </div>
+    <div class="copy">© 2026 Medical Information Map Search Project.</div>
+</footer>
+
+<script>
+    /**
+     * ページ表示切り替え
+     */
+    function showPage(pageId) {
+        const pages = document.querySelectorAll('.page-content');
+        pages.forEach(page => page.classList.remove('active'));
+
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => link.classList.remove('active'));
+        
+        const targetNav = document.getElementById('nav-' + pageId);
+        if(targetNav) {
+            targetNav.classList.add('active');
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * 都道府県別地図サイトを開く
+     */
+    function openMap(){
+        const prefSelect = document.getElementById("pref");
+        const prefNum = prefSelect.value;
+
+        if(prefNum === ""){
+            alert("都道府県を選択してください");
+            return;
+        }
+
+        const baseURL = "https://hmc48.github.io/";
+        const repoName = "hmap" + prefNum + "_202602";
+        const url = baseURL + repoName + "/";
+
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            window.location.href = url;
+        } else {
+            window.open(url, "_blank");
+        }
+    }
+
+    /**
+     * 医療圏PDFを開く（追加機能）
+     */
+    function openIryokenPDF() {
+        const prefSelect = document.getElementById("pref-stats");
+        const prefNum = prefSelect.value;
+
+        if(prefNum === ""){
+            alert("都道府県を選択してください");
+            return;
+        }
+
+        // PDFのURL組み立て
+        const url = "https://hmc48.github.io/hiryoken_202506/" + prefNum + "iryoken" + "202506.pdf";
+        window.open(url, "_blank");
+    }
+
+    // 読み込み完了時の初期設定
+    window.addEventListener('DOMContentLoaded', () => {
+        const homeNav = document.getElementById('nav-home');
+        if (homeNav) homeNav.classList.add('active');
+    });
+</script>
+
+</body>
+</html>
