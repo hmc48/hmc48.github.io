@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- GA4の計測タグ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R23Q109BZT"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -23,6 +22,17 @@
             --text-color: #333;
             --bg-color: #f0f4f8;
             --footer-bg: #2c3e50;
+            
+            /* アイコンカラー */
+            --color-hospital: red;
+            --color-clinic: blue;
+            --color-dental: orange;
+            --color-pharmacy: green;
+            --color-care: brown;
+            --color-control: #007bff;
+            --color-search: #28a745;
+            --color-info: #ff69b4;
+            --color-jump: #ff9800;
         }
 
         body {
@@ -95,7 +105,7 @@
             main { padding: 40px 20px; }
         }
 
-        .page-content { display: none; width: 100%; max-width: 800px; animation: fadeIn 0.4s ease-out; }
+        .page-content { display: none; width: 100%; max-width: 900px; animation: fadeIn 0.4s ease-out; }
         .page-content.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -120,6 +130,51 @@
         h3 { font-size: 1.1rem; color: var(--accent-color); margin-top: 20px; text-align: left; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
         .info-text { text-align: left; line-height: 1.7; color: #555; font-size: 15px; }
+
+        /* ガイド用グリッドスタイル */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .guide-item {
+            background: #fff;
+            border: 1px solid #edf2f7;
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .guide-item:hover { transform: translateY(-3px); }
+
+        .guide-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 10px;
+            color: white;
+        }
+
+        /* アイコン個別色 */
+        .hospital { background: var(--color-hospital); }
+        .clinic { background: var(--color-clinic); }
+        .dental { background: var(--color-dental); }
+        .pharmacy { background: var(--color-pharmacy); }
+        .midwife { background: var(--color-hospital); }
+        .care { background: var(--color-care); }
+        .control { background: var(--color-control); }
+        .search-btn { background: var(--color-search); }
+        .info-btn { background: var(--color-info); }
+        .jump-btn { background: var(--color-jump); }
+
+        .guide-name { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--text-color); }
+        .guide-desc { font-size: 11px; color: #718096; line-height: 1.4; }
 
         /* 検索パーツ */
         .select-wrapper { position: relative; margin: 25px 0; }
@@ -270,21 +325,70 @@
     <section id="guide" class="page-content">
         <div class="card">
             <h2>利用ガイド</h2>
-            <div class="info-text">
-                <p><b>1. 都道府県を選択</b><br>検索ページから、調べたい都道府県を選んでください。</p>
-                <p><b>2. 地図を開く</b><br>「地図を表示する」ボタンを押すと地図画面に切り替わります。</p>
-                <p><b>3. 施設の選択</b><br>地図上の右上の青色アイコンをタップまたはクリックすると、
-                         地図の種類、境界線・施設種類を選択できます。下にスクロールすると介護施設も表示されます。</p>
-                <p><b>4. マーカーの表示</b><br>地図上に選択した施設がマーカーで表示されます。
-                         地図上のマーカーをタップまたはクリックすると、施設情報が表示されます。</p>
-                <p><b>5. マーカーのリンク</b><br>選択した施設情報には、各施設のホームページ（あれば）、医療・介護ネット
-                         のリンクが表示されます。</p>
-                <p><b>6. 境界線の表示</b><br>各医療圏を選択すると、町などの境界線が表示され、町名や人口が表示されます。</p>
-                <p><b>7. 施設の検索</b><br>地図上の右上の緑色アイコンをタップまたはクリックすると、
-                         施設の検索（and検索）ができます。例：〇〇町　内科　診療所</p>
-                <p><b>8. 案内の表示</b><br>地図上の右上のピンク色アイコンをタップまたはクリックすると、案内が表示されます。</p>
-                <p><b>9. 住所、施設、緯度経度の検索</b><br>地図上の右上のオレンジ色アイコンをタップまたはクリックすると、
-                         住所、施設、緯度経度の検索（and検索）ができます。例：〇〇町　〇〇区役所</p>
+            
+            <h3>1. 地図上のアイコン説明</h3>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <div class="guide-icon hospital">★</div>
+                    <div class="guide-name">病院</div>
+                    <div class="guide-desc">20床以上の入院施設がある医療機関</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon clinic">♥</div>
+                    <div class="guide-name">診療所</div>
+                    <div class="guide-desc">19床以下の入院施設、または外来のみ</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon dental">♣</div>
+                    <div class="guide-name">歯科</div>
+                    <div class="guide-desc">歯科、歯科口腔外科などの医療機関</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon pharmacy">♠</div>
+                    <div class="guide-name">薬局</div>
+                    <div class="guide-desc">調剤薬局、ドラッグストアなど</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon midwife">■</div>
+                    <div class="guide-name">助産院</div>
+                    <div class="guide-desc">出産や育児支援の助産施設</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon care">●</div>
+                    <div class="guide-name">介護サービス</div>
+                    <div class="guide-desc">老人ホームやデイサービス、訪問介護等</div>
+                </div>
+            </div>
+
+            <h3>2. 操作ボタンの使い方</h3>
+            <div class="guide-grid">
+                <div class="guide-item">
+                    <div class="guide-icon control">🛠️</div>
+                    <div class="guide-name">設定</div>
+                    <div class="guide-desc">地図の背景や表示する施設を切り替えます</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon search-btn">🔍</div>
+                    <div class="guide-name">施設検索</div>
+                    <div class="guide-desc">「町名 内科」などキーワードで絞り込み</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon info-btn">i</div>
+                    <div class="guide-name">情報</div>
+                    <div class="guide-desc">サイトの基本情報と使い方の案内</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon jump-btn">📍</div>
+                    <div class="guide-name">住所ジャンプ</div>
+                    <div class="guide-desc">住所、緯度経度から場所を検索</div>
+                </div>
+            </div>
+
+            <div class="info-text" style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
+                <p><b>■ 基本的な手順</b><br>
+                1. 検索ページで都道府県を選択し「地図を表示する」を押します。<br>
+                2. 地図画面が開いたら、右上の青色アイコン（設定）で表示したい施設を選択してください。<br>
+                3. アイコンをタップすると、施設の詳細情報や公式サイトへのリンクが表示されます。</p>
             </div>
         </div>
     </section>
