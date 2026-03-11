@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- GA4の計測タグ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0S8GJP59HM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
+      // 初回ロード時の計測
       gtag('config', 'G-0S8GJP59HM');
     </script>
 
@@ -544,7 +544,7 @@
 
 <script>
     /**
-     * ページ表示切り替え
+     * ページ表示切り替え & GA4イベント送信
      */
     function showPage(pageId) {
         const pages = document.querySelectorAll('.page-content');
@@ -562,6 +562,25 @@
         if(targetNav) {
             targetNav.classList.add('active');
         }
+
+        // --- GA4 仮想ページビューの送信 ---
+        if (typeof gtag === 'function') {
+            const titles = {
+                'home': 'ホーム',
+                'search': '地図検索',
+                'guide': '利用ガイド',
+                'stats': '統計',
+                'call': '呼出システム',
+                'types': 'リンク集',
+                'contact': '利用規約'
+            };
+
+            gtag('config', 'G-0S8GJP59HM', {
+                'page_title': titles[pageId] || pageId,
+                'page_path': '/' + pageId
+            });
+        }
+        // --------------------------------
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
