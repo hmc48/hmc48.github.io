@@ -119,6 +119,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             text-align: center;
             margin: 0 auto 20px;
+            position: relative; /* ★この行を追加：アイコン配置の基準になります */
         }
         @media (min-width: 768px) {
             .card { padding: 40px 30px; border-radius: 20px; }
@@ -223,6 +224,28 @@
         .footer-links li { margin-bottom: 12px; cursor: pointer; color: #ccc; font-size: 14px; }
         .footer-links li:hover { color: white; }
         .copy { text-align: center; color: #888; border-top: 1px solid #444; margin-top: 30px; padding-top: 20px; font-size: 11px; }
+
+        /* 追加：右上のバナーアイコン設定 */
+        .banner-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: block;
+            z-index: 10;
+        }
+        .banner-icon img {
+            width: 60px;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+        .banner-icon img:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+        @media (max-width: 480px) {
+            .banner-icon img { width: 45px; } /* スマホでは少し小さく */
+        }
     </style>
 </head>
 <body>
@@ -245,6 +268,9 @@
 <main>
     <section id="home" class="page-content active">
         <div class="card">
+            <a href="https://hmc48.github.io/hmap22hama_202602/" target="_blank" class="banner-icon">
+                <img src="https://hmc48.github.io/rdesign_16817.png" alt="Icon">
+            </a>
             <h1>ようこそ 医療、介護施設の地図ナビへ</h1>
             <p class="info-text">厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。
                 全国の病院や診療所、歯科、薬局、介護施設などを地図上から手軽に探し出すことができます。
@@ -293,7 +319,7 @@
                 <a href="https://hmc48.github.io/her_graph2025/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">救命救急グラフを開く</a>
 
                 <h3>医療圏統計</h3>
-                <p class="info-text">都道府県を選択して、医療圏別の統計 PDFを表示します。</p>
+                <p class="info-text">都道府県を選択して、医療圏別の統計PDFを表示します。</p>
                 <div class="select-wrapper" style="margin: 15px 0;">
                     <select id="pref-stats">
                         <option value="">都道府県を選択してください</option>
@@ -306,10 +332,6 @@
                     </select>
                 </div>
                 <button type="button" class="btn-action btn-small" onclick="openIryokenPDF()">医療圏PDFを開く</button>
-
-                <h3>病院比較ベンチマーク</h3>
-                <p class="info-text">各病院を評価点で比較します。（病床利用率、病床稼働率、病床回転率）評価結果をランクとグラフで示します。</p>
-                <a href="https://hmc48.github.io/hbor_graph2025/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">病院比較ベンチマークを開く</a>
             </div>
         </div>
     </section>
