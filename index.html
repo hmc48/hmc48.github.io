@@ -119,7 +119,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             text-align: center;
             margin: 0 auto 20px;
-            position: relative; /* ★この行を追加：アイコン配置の基準になります */
+            position: relative;
         }
         @media (min-width: 768px) {
             .card { padding: 40px 30px; border-radius: 20px; }
@@ -225,7 +225,6 @@
         .footer-links li:hover { color: white; }
         .copy { text-align: center; color: #888; border-top: 1px solid #444; margin-top: 30px; padding-top: 20px; font-size: 11px; }
 
-        /* 追加：右上のバナーアイコン設定 */
         .banner-icon {
             position: absolute;
             top: 15px;
@@ -244,7 +243,7 @@
             opacity: 0.8;
         }
         @media (max-width: 480px) {
-            .banner-icon img { width: 45px; } /* スマホでは少し小さく */
+            .banner-icon img { width: 45px; }
         }
     </style>
 </head>
@@ -309,19 +308,6 @@
                 <p class="info-text">一般病床500床以上の病院、療養病床100床以上の病院、精神病床200床以上の病院、結核病床がある病院、感染症病床がある病院のMap</p>
                 <a href="https://hmc48.github.io/hmap99_tokei_202512/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">全国地図を開く</a>
 
-                <h3>DPC機能評価係数Ⅱ(2026年度)</h3>
-                <p class="info-text">急性期入院医療の状況を示すDPC（診断群分類別包括評価）のうち、各医療機関のDPC機能評価係数Ⅱ(2026年度)</p>
-                <a href="https://hmc48.github.io/hdpc_graph202506/dpc_ranking202603.pdf" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">DPCランキングPDFを開く(2026年度)</a>
-
-                <h3>DPC統計(2025年6月時点)</h3>
-                <p class="info-text">急性期入院医療の状況を示すDPC（診断群分類別包括評価）のうち、各医療機関のDPC機能評価係数Ⅱ(2025年6月時点)を比較棒グラフで表示します。</p>
-                <a href="https://hmc48.github.io/hdpc_graph202506/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">DPC比較棒グラフを開く(2025年6月時点)</a>
-                <a href="https://hmc48.github.io/hdpc_graph202506/dpc_ranking202506.pdf" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">DPCランキングPDFを開く(2025年6月時点)</a>
-
-                <h3>救命救急統計</h3>
-                <p class="info-text">救命救急センター充実段階評価の比較（令和6年1月～12月実績）を比較棒グラフで表示します。Max5病院</p>
-                <a href="https://hmc48.github.io/her_graph2025/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">救命救急グラフを開く</a>
-
                 <h3>医療圏統計</h3>
                 <p class="info-text">都道府県を選択して、医療圏別の統計 PDFを表示します。</p>
                 <div class="select-wrapper" style="margin: 15px 0;">
@@ -336,10 +322,6 @@
                     </select>
                 </div>
                 <button type="button" class="btn-action btn-small" onclick="openIryokenPDF()">医療圏PDFを開く</button>
-
-                <h3>病院比較ベンチマーク</h3>
-                <p class="info-text">各病院を評価点で比較します。（病床利用率、病床稼働率、病床回転率）評価結果をランクとグラフで示します。</p>
-                <a href="https://hmc48.github.io/hbor_graph2025/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">病院比較ベンチマークを開く</a>
             </div>
         </div>
     </section>
@@ -492,12 +474,6 @@
                     <a href="https://www.e-stat.go.jp/stat-search/database?page=1&toukei=00200521&tstat=000001136464" target="_blank" rel="noopener noreferrer">
                        e-Stat国勢調査2020年
                     </a><br>
-                    <a href="https://www.mhlw.go.jp/content/10808000/001487164.pdf" target="_blank" rel="noopener noreferrer">
-                       DPC機能評価係数Ⅱ及び救急補正係数の内訳（医療機関別）令和7年6月1日時点
-                    </a><br>
-                    <a href="https://www.mhlw.go.jp/stf/newpage_57088.html" target="_blank" rel="noopener noreferrer">
-                       救命救急センターの充実段階調査結果（令和６年）
-                    </a><br>
                     <a href="https://www.mhlw.go.jp/stf/newpage_67729.html" target="_blank" rel="noopener noreferrer">
                        令和８年度診療報酬改定について（厚労省）
                     </a>
@@ -580,9 +556,6 @@
 </footer>
 
 <script>
-    /**
-     * ページ表示切り替え & GA4イベント送信
-     */
     function showPage(pageId) {
         const pages = document.querySelectorAll('.page-content');
         pages.forEach(page => page.classList.remove('active'));
@@ -600,7 +573,6 @@
             targetNav.classList.add('active');
         }
 
-        // --- GA4 仮想ページビューの送信 ---
         if (typeof gtag === 'function') {
             const titles = {
                 'home': 'ホーム',
@@ -617,14 +589,10 @@
                 'page_path': '/' + pageId
             });
         }
-        // --------------------------------
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /**
-     * 都道府県別地図サイトを開く
-     */
     function openMap(){
         const prefSelect = document.getElementById("pref");
         const prefNum = prefSelect.value;
@@ -647,9 +615,6 @@
         }
     }
 
-    /**
-     * 医療圏PDFを開く（追加機能）
-     */
     function openIryokenPDF() {
         const prefSelect = document.getElementById("pref-stats");
         const prefNum = prefSelect.value;
@@ -659,12 +624,10 @@
             return;
         }
 
-        // PDFのURL組み立て
         const url = "https://hmc48.github.io/hiryoken_202506/" + prefNum + "iryoken_tokei" + "202506.pdf";
         window.open(url, "_blank");
     }
 
-    // 読み込み完了時の初期設定
     window.addEventListener('DOMContentLoaded', () => {
         const homeNav = document.getElementById('nav-home');
         if (homeNav) homeNav.classList.add('active');
