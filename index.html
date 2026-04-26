@@ -25,6 +25,7 @@
             --footer-bg: #2c3e50;
             
             /* アイコンカラー */
+            --color-homec: #ff69b4;
             --color-hospital: red;
             --color-clinic: blue;
             --color-dental: orange;
@@ -34,6 +35,15 @@
             --color-search: #28a745;
             --color-info: #ff69b4;
             --color-jump: #ff9800;
+            --color-car: #673ab7;
+            --color-circle: #800080;
+            --color-re: #800080;
+            --color-zu: #949593;
+            --color-pi: #d8e621c4;
+
+
+
+
         }
 
         body {
@@ -164,6 +174,7 @@
         }
 
         /* アイコン個別色 */
+        .home-btn { background: var(--color-homec); }
         .hospital { background: var(--color-hospital); }
         .clinic { background: var(--color-clinic); }
         .dental { background: var(--color-dental); }
@@ -174,6 +185,13 @@
         .search-btn { background: var(--color-search); }
         .info-btn { background: var(--color-info); }
         .jump-btn { background: var(--color-jump); }
+        .car-btn { background: var(--color-car); }
+        .circle-btn { background: var(--color-circle); }
+        .re-btn { background: var(--color-re); }
+        .zu-btn { background: var(--color-zu); }
+        .pi-btn { background: var(--color-pi); }
+
+
 
         .guide-name { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--text-color); }
         .guide-desc { font-size: 11px; color: #718096; line-height: 1.4; }
@@ -384,10 +402,16 @@
             <h3>2. 操作ボタンの使い方</h3>
             <div class="guide-grid">
                 <div class="guide-item">
+                    <div class="guide-icon home-btn">🏠</div>
+                    <div class="guide-name">ホーム</div>
+                    <div class="guide-desc">ここから開始します</div>
+                </div>
+                <div class="guide-item">
                     <div class="guide-icon control">🛠️</div>
                     <div class="guide-name">設定</div>
                     <div class="guide-desc">地図の背景や表示する施設を切り替えます</div>
                 </div>
+
                 <div class="guide-item">
                     <div class="guide-icon search-btn">🔍</div>
                     <div class="guide-name">施設検索</div>
@@ -403,6 +427,27 @@
                     <div class="guide-name">住所ジャンプ</div>
                     <div class="guide-desc">住所、緯度経度から場所を検索</div>
                 </div>
+                <div class="guide-item">
+                    <div class="guide-icon car-btn">🚗</div>
+                    <div class="guide-name">経路探索</div>
+                    <div class="guide-desc">地点間の移動時間、距離（自動車、徒歩）</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon re-btn">↩️</div>
+                    <div class="guide-name">初期化</div>
+                    <div class="guide-desc">初期化します（描写の全削除）</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon zu-btn">✏️</div>
+                    <div class="guide-name">図形、テキスト描写</div>
+                    <div class="guide-desc">円、四角形、テキスト文字を描写</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon pi-btn">🖼️</div>
+                    <div class="guide-name">写真、イラスト</div>
+                    <div class="guide-desc">任意の写真、画像、イラストの挿入</div>
+                </div>
+
             </div>
 
             <div class="info-text" style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
