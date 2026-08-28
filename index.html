@@ -322,7 +322,7 @@
             <p class="info-text">医療機関の活動状況や実績に関する統計情報を公開しています。</p>
         
             <div style="text-align: left; margin-top: 20px;">
-                <h3>特化型病院</h3>
+                <h3>特化型病院(2025/12)</h3>
                 <p class="info-text">一般病床500床以上の病院、療養病床100床以上の病院、精神病床200床以上の病院、結核病床がある病院、感染症病床がある病院のMap</p>
                 <a href="https://hmc48.github.io/hmap99_tokei_202512/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">全国地図を開く</a>
 
@@ -339,7 +339,10 @@
                         <optgroup label="九州・沖縄"><option value="40">福岡県</option><option value="41">佐賀県</option><option value="42">長崎県</option><option value="43">熊本県</option><option value="44">大分県</option><option value="45">宮崎県</option><option value="46">鹿児島県</option><option value="47">沖縄県</option></optgroup>
                     </select>
                 </div>
-                <button type="button" class="btn-action btn-small" onclick="openIryokenPDF()">医療圏PDFを開く</button>
+                <!-- 上段: 2026年08月分 -->
+                <button type="button" class="btn-action btn-small" onclick="openIryokenPDF202608()">医療圏PDFを開く（2026/08）</button>
+                <!-- 下段: 2025年06月分 -->
+                <button type="button" class="btn-action btn-small" onclick="openIryokenPDF202506()">医療圏PDFを開く（2025/06）</button>
 
                 <h3>施設基準の届出状況(医科)(2026/3)</h3>
                 <p class="info-text">各医療機関の施設基準の届出状況を表示します。</p>
@@ -354,7 +357,7 @@
             <p class="info-text">VOICEVOX（無料で使える中品質なテキスト読み上げ・歌声合成ソフトウェア）を利用した簡易的な呼出システムです。
                                  主にスマートフォンから簡単に呼出操作を行い、サブモニターやBluetoothスピーカーを接続することで、手軽にご利用
                                  環境を構築できます。【音声案内例】「お待たせいたしました。〇〇番でお待ちの方、3番受付までお越しください。」
-                                 定型文以外は、フリー入力（外部サイト）で音声案内も可能です。　</p>
+                                 定型文以外は、フリー入力（外部サイト）で音声案内も可能です。 </p>
             <div style="margin-top: 30px;">
                 <a href="https://hmc48.github.io/hmedicall01a/" class="btn-action" target="_blank">呼出システムを開く</a>
             </div>
@@ -664,7 +667,22 @@
         }
     }
 
-    function openIryokenPDF() {
+    // 2026年08月分 PDF開く関数
+    function openIryokenPDF202608() {
+        const prefSelect = document.getElementById("pref-stats");
+        const prefNum = prefSelect.value;
+
+        if(prefNum === ""){
+            alert("都道府県を選択してください");
+            return;
+        }
+
+        const url = "https://hmc48.github.io/hiryoken_202608/" + prefNum + "iryoken_tokei" + "202608.pdf";
+        window.open(url, "_blank");
+    }
+
+    // 2025年06月分 PDF開く関数
+    function openIryokenPDF202506() {
         const prefSelect = document.getElementById("pref-stats");
         const prefNum = prefSelect.value;
 
