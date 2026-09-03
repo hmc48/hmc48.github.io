@@ -291,8 +291,8 @@
             <h1>ようこそ 医療、介護施設の地図ナビへ</h1>
             <p class="info-text">厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。
                 全国の病院や診療所、歯科、薬局、介護施設などを地図上から手軽に探し出すことができます。
-                また、統計や呼出システムも掲載しています。</p>
-            <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">さっそく検索する</button>
+                また、統計や呼出システムも掲載しています。 最終更新：2026年8月</p>
+            <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">都道府県から地図を探す</button>
         </div>
     </section>
 
@@ -327,10 +327,11 @@
                 <a href="https://hmc48.github.io/hmap99_tokei_202512/" target="_blank" rel="noopener noreferrer" class="btn-action btn-small">全国地図を開く</a>
 
                 <h3>医療圏統計</h3>
-                <p class="info-text">都道府県を選択して、医療圏別の統計 PDFを表示します。</p>
+                <p class="info-text">都道府県を選択して、医療圏別の統計 PDFを表示します。※全国の合計（都道府県別）は北海道の上にあります。</p>
                 <div class="select-wrapper" style="margin: 15px 0;">
                     <select id="pref-stats">
                         <option value="">都道府県を選択してください</option>
+                        <optgroup label="全国の合計（都道府県別）"><option value="99">全国（都道府県別）</option></optgroup>
                         <optgroup label="北海道・東北"><option value="01">北海道</option><option value="02">青森県</option><option value="03">岩手県</option><option value="04">宮城県</option><option value="05">秋田県</option><option value="06">山形県</option><option value="07">福島県</option></optgroup>
                         <optgroup label="関東"><option value="08">茨城県</option><option value="09">栃木県</option><option value="10">群馬県</option><option value="11">埼玉県</option><option value="12">千葉県</option><option value="13">東京都</option><option value="14">神奈川県</option></optgroup>
                         <optgroup label="中部"><option value="15">新潟県</option><option value="16">富山県</option><option value="17">石川県</option><option value="18">福井県</option><option value="19">山梨県</option><option value="20">長野県</option><option value="21">岐阜県</option><option value="22">静岡県</option><option value="23">愛知県</option></optgroup>
