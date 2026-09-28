@@ -13,7 +13,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>医療、介護施設の地図検索ナビ</title>
+    <title>医療・介護・防災の地図ナビ｜医療、介護施設の地図検索</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -269,7 +269,7 @@
 <body>
 
 <header>
-    <div class="logo" onclick="showPage('home')">📍 医療、介護施設の地図ナビ</div>
+    <div class="logo" onclick="showPage('home')">📍 医療・介護・防災の地図ナビ</div>
     <nav>
         <ul>
             <li><a onclick="showPage('home')" id="nav-home">HOME</a></li>
@@ -289,10 +289,43 @@
             <a href="https://hmc48.github.io/hmap22hama_202608/" target="_blank" class="banner-icon">
                 <img src="https://hmc48.github.io/rdesign_16817.png" alt="Icon">
             </a>
-            <h1>ようこそ 医療、介護施設の地図ナビへ</h1>
-            <p class="info-text">厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。
-                全国の病院や診療所、歯科、薬局、介護施設などを地図上から手軽に探し出すことができます。
-                また、統計や呼出システムも掲載しています。 最終更新：2026年8月</p>
+            <h1>ようこそ 医療・介護・防災の地図ナビへ</h1>
+
+            <p class="info-text">
+                厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。<br>
+                全国の病院・診療所・歯科・薬局・介護施設などを、地図上から手軽に探すことができます。
+            </p>
+
+            <div style="margin:18px 0; padding:14px 16px; border:1px solid #ccc; border-radius:8px; background:#f8f8f8; text-align:left;">
+                <strong>このサイトは無料で利用できます</strong><br>
+                医療・介護施設の検索だけでなく、防災情報、過去の航空写真・古地図、
+                地図上への図形・文字・画像の追加など、さまざまな地図機能を利用できます。
+            </div>
+
+            <div style="margin:18px 0; text-align:left;">
+                <h2 style="font-size:1.15em; margin:0 0 10px 0;">主な機能</h2>
+
+                <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
+                    <strong>🏥 医療・介護施設を探す</strong><br>
+                    全国の病院・診療所・歯科・薬局・介護施設などを地図から検索できます。
+                </div>
+
+                <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
+                    <strong>🗺️ 防災情報を見る・自分で防災マップを作る</strong><br>
+                    洪水・土砂災害・津波・高潮などの災害情報を地図上で確認できます。
+                    さらに、円・四角形・文字・写真・イラストなどを地図上に追加して、
+                    自分用の防災マップを作成できます。
+                </div>
+
+                <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
+                    <strong>📷 過去の航空写真・古地図を見る</strong><br>
+                    国土地理院の過去の航空写真などを利用して、現在の地図と過去の地域の様子を
+                    見比べることができます。年代や地域によって表示できない場合があります。
+                </div>
+            </div>
+
+            <p class="info-text">統計や呼出システムも掲載しています。 最終更新：2026年8月</p>
+
             <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">都道府県から地図を探す</button>
         </div>
     </section>
