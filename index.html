@@ -276,7 +276,7 @@
             <li><a onclick="showPage('search')" id="nav-search">地図検索</a></li>
             <li><a onclick="showPage('guide')" id="nav-guide">利用ガイド</a></li>
             <li><a onclick="showPage('stats')" id="nav-stats">統計</a></li>
-            <li><a onclick="showPage('call')" id="nav-call">呼出システム</a></li>
+            <li><a onclick="showPage('call')" id="nav-call">無料番号呼出</a></li>
             <li><a onclick="showPage('types')" id="nav-link_page">リンク集</a></li>
             <li><a onclick="showPage('contact')" id="nav-contact">利用規約</a></li>
         </ul>
@@ -324,7 +324,7 @@
                 </div>
             </div>
 
-            <p class="info-text">統計や呼出システムも掲載しています。 最終更新：2026年8月</p>
+            <p class="info-text">医療統計に加えて、受付・待合室などで利用できる<strong>無料の番号呼出システム</strong>も掲載しています。<br>最終更新：2026年8月</p>
 
             <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">都道府県から地図を探す</button>
         </div>
@@ -388,13 +388,41 @@
 
     <section id="call" class="page-content">
         <div class="card">
-            <h2>呼出システム</h2>
-            <p class="info-text">VOICEVOX（無料で使える中品質なテキスト読み上げ・歌声合成ソフトウェア）を利用した簡易的な呼出システムです。
-                                 主にスマートフォンから簡単に呼出操作を行い、サブモニターやBluetoothスピーカーを接続することで、手軽にご利用
-                                 環境を構築できます。【音声案内例】「お待たせいたしました。〇〇番でお待ちの方、3番受付までお越しください。」
-                                 定型文以外は、フリー入力（外部サイト）で音声案内も可能です。 </p>
+            <h2>📢 無料で使える番号呼出システム</h2>
+
+            <p class="info-text">
+                病院・クリニック・介護施設などの<strong>受付や待合室</strong>で利用できる、
+                Web型の番号呼出システムです。
+            </p>
+
+            <div style="margin:18px 0; padding:16px; border:1px solid #d9e2f0; border-radius:10px; background:#f7faff; text-align:left;">
+                <div style="margin:8px 0;"><strong>📱 スマートフォン</strong>　番号を選んで呼出操作</div>
+                <div style="margin:8px 0;"><strong>🔊 音声案内</strong>　番号を音声でお知らせ</div>
+                <div style="margin:8px 0;"><strong>🖥️ サブモニター</strong>　呼出番号を画面に表示</div>
+                <div style="margin:8px 0;"><strong>🔈 Bluetoothスピーカー</strong>　音声案内を再生</div>
+            </div>
+
+            <p class="info-text">
+                VOICEVOXを利用した音声案内に対応しています。
+                専用の呼出機器を用意せず、スマートフォン・サブモニター・
+                Bluetoothスピーカーなどを組み合わせて、手軽に呼出環境を構築できます。
+            </p>
+
+            <div style="margin:18px 0; padding:12px 16px; border:2px solid #4a90e2; border-radius:10px; background:#fff; text-align:center;">
+                <strong style="font-size:1.05em;">利用料は無料です</strong>
+            </div>
+
+            <p class="info-text">
+                <strong>音声案内例：</strong><br>
+                「お待たせいたしました。〇〇番でお待ちの方、3番受付までお越しください。」
+            </p>
+
+            <p class="info-text" style="font-size:13px;">
+                ※定型文以外は、フリー入力（外部サイト）による音声案内も可能です。
+            </p>
+
             <div style="margin-top: 30px;">
-                <a href="https://hmc48.github.io/hmedicall01a/" class="btn-action" target="_blank">呼出システムを開く</a>
+                <a href="https://hmc48.github.io/hmedicall01a/" class="btn-action" target="_blank" rel="noopener noreferrer">📢 無料の番号呼出システムを使う</a>
             </div>
         </div>
     </section>
@@ -635,7 +663,7 @@
                 <li onclick="showPage('search')">地図検索</li>
                 <li onclick="showPage('guide')">利用ガイド</li>
                 <li onclick="showPage('stats')">統計</li>
-                <li><a onclick="showPage('call')" id="nav-call">呼出システム</a></li>
+                <li><a onclick="showPage('call')" id="nav-call">無料番号呼出</a></li>
                 <li><a onclick="showPage('types')" id="nav-link_page">リンク集</a></li>
                 <li><a onclick="showPage('contact')" id="nav-contact">利用規約</a></li>
             </ul>
