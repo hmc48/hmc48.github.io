@@ -13,7 +13,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>医療・介護・防災の地図ナビ｜医療、介護施設の地図検索</title>
+    <title>医療・介護・学校・防災の地図ナビ｜医療、介護、学校施設の地図検索</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -40,10 +40,8 @@
             --color-re: #800080;
             --color-zu: #949593;
             --color-pi: #d8e621c4;
-
-
-
-
+            --color-print: #17a2b8;
+            --color-split: #20c997;
         }
 
         body {
@@ -191,8 +189,16 @@
         .re-btn { background: var(--color-re); }
         .zu-btn { background: var(--color-zu); }
         .pi-btn { background: var(--color-pi); }
+        .print-btn { background: var(--color-print); }
+        .split-btn { background: var(--color-split); }
 
-
+        /* 学校マーカー（Pythonの学校分類・アイコン設定に対応） */
+        .school-green { background: green; }
+        .school-red { background: red; }
+        .school-blue { background: blue; }
+        .school-brown { background: brown; }
+        .school-pink { background: deeppink; }
+        .school-orange { background: orange; }
 
         .guide-name { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: var(--text-color); }
         .guide-desc { font-size: 11px; color: #718096; line-height: 1.4; }
@@ -269,7 +275,7 @@
 <body>
 
 <header>
-    <div class="logo" onclick="showPage('home')">📍 医療・介護・防災の地図ナビ</div>
+    <div class="logo" onclick="showPage('home')">📍 医療・介護・学校・防災の地図ナビ</div>
     <nav>
         <ul>
             <li><a onclick="showPage('home')" id="nav-home">HOME</a></li>
@@ -289,16 +295,16 @@
             <a href="https://hmc48.github.io/hmap22hama_202608/" target="_blank" class="banner-icon">
                 <img src="https://hmc48.github.io/rdesign_16817.png" alt="Icon">
             </a>
-            <h1>ようこそ 医療・介護・防災の地図ナビへ</h1>
+            <h1>ようこそ 医療・介護・学校・防災の地図ナビへ</h1>
 
             <p class="info-text">
-                厚生労働省のオープンデータを活用した、医療・介護施設の検索サイトです。<br>
-                全国の病院・診療所・歯科・薬局・介護施設などを、地図上から手軽に探すことができます。
+                厚生労働省などのオープンデータを活用した、医療・介護・学校施設の検索サイトです。<br>
+                全国の病院・診療所・歯科・薬局・介護施設に加えて、小学校・中学校・高校などの学校施設を、地図上から手軽に探すことができます。
             </p>
 
             <div style="margin:18px 0; padding:14px 16px; border:1px solid #ccc; border-radius:8px; background:#f8f8f8; text-align:left;">
                 <strong>このサイトは無料で利用できます</strong><br>
-                医療・介護施設の検索だけでなく、防災情報、過去の航空写真、
+                医療・介護施設や学校の検索だけでなく、防災情報、過去の航空写真、
                 地図上への図形・文字・画像の追加など、さまざまな地図機能を利用できます。
             </div>
 
@@ -307,15 +313,40 @@
 
                 <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
                     <strong>🏥 医療・介護施設を探す</strong><br>
-                    全国の病院・診療所・歯科・薬局・介護施設などを地図から検索できます。
+                    全国の病院・診療所・歯科医院・薬局・介護施設などを地図上で検索できます。地図から施設の場所を確認し、施設ごとの詳細情報も閲覧できます。
                 </div>
 
                 <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
-                    <strong>🗺️ 防災情報を見る・自分で防災マップを作る</strong><br>
+                    <strong>🏫 学校を探す</strong><br>
+                    小学校・中学校・高校などの学校を地図上で確認できます。
+                    学校名・所在地・学校種別のほか、管理者分類や休校情報も確認できます。
+                </div>
+
+                <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
+                    <strong>🗺️ 防災・学校・地域の地図を活用する</strong><br>
                     洪水・土砂災害・津波・高潮などの災害情報を地図上で確認できます。
                     さらに、円・四角形・文字・写真・イラストなどを地図上に追加して、
-                    自分用の防災マップを作成できます。
-                </div>
+                    自分用の防災マップを作成できます。<br>
+                    <strong>🖨️ 防災マップ印刷</strong>にも対応しており、
+                    A4・A3用紙、縦・横、2×2・3×3・4×4の分割印刷ができます。
+                <br>
+<strong>📋 防災会議・地域の防災活動にも活用できます。</strong><br><br>
+<strong>🎓 学校での防災教育にも活用できます。</strong><br>
+小学校・中学校などで、身近な地域の地図を見ながら、
+洪水・土砂災害・津波・高潮などの災害情報、避難場所や避難経路などを確認できます。
+児童・生徒が自分たちの地域について考える防災学習や、学校周辺の危険箇所を確認する
+教材としても活用できます。<br>
+<strong>🏫 地域での活用例</strong><br>
+・学校の防災教育・防災学習<br>
+・自治会・町内会の防災会議<br>
+・地域の避難場所・避難経路の確認<br>
+・災害時に注意が必要な場所の確認<br>
+・大きな紙の地図を使った地域防災の検討<br>
+・防災訓練前の地域確認や説明資料づくり
+分割印刷を利用すると、1枚では収まらない広い範囲の地図を複数枚に分けて印刷し、
+つなぎ合わせて大きな防災地図として利用できます。
+防災会議や自治会・町内会などで、避難場所・避難経路・危険箇所などを
+大きな紙の地図上で確認・検討する際にも活用できます。</div>
 
                 <div style="margin:8px 0; padding:10px 12px; border-left:4px solid #777;">
                     <strong>📷 過去の航空写真を見る</strong><br>
@@ -324,7 +355,7 @@
                 </div>
             </div>
 
-            <p class="info-text">医療統計に加えて、受付・待合室などで利用できる<strong>無料の番号呼出システム</strong>も掲載しています。<br>最終更新：2026年8月</p>
+            <p class="info-text">医療統計に加えて、受付・待合室などで利用できる<strong>無料の番号呼出システム</strong>も掲載しています。<br>最終更新：2026年9月</p>
 
             <button type="button" class="btn-action" onclick="showPage('search')" style="max-width:300px; margin-top:20px;">都道府県から地図を探す</button>
         </div>
@@ -396,10 +427,10 @@
             </p>
 
             <div style="margin:18px 0; padding:16px; border:1px solid #d9e2f0; border-radius:10px; background:#f7faff; text-align:left;">
-                <div style="margin:8px 0;"><strong>📱 スマートフォン</strong>　番号を選んで呼出操作</div>
-                <div style="margin:8px 0;"><strong>🔊 音声案内</strong>　番号を音声でお知らせ</div>
-                <div style="margin:8px 0;"><strong>🖥️ サブモニター</strong>　呼出番号を画面に表示</div>
-                <div style="margin:8px 0;"><strong>🔈 Bluetoothスピーカー</strong>　音声案内を再生</div>
+                <div style="margin:8px 0;"><strong>📱 スマートフォン</strong> 番号を選んで呼出操作</div>
+                <div style="margin:8px 0;"><strong>🔊 音声案内</strong> 番号を音声でお知らせ</div>
+                <div style="margin:8px 0;"><strong>🖥️ サブモニター</strong> 呼出番号を画面に表示</div>
+                <div style="margin:8px 0;"><strong>🔈 Bluetoothスピーカー</strong> 音声案内を再生</div>
             </div>
 
             <p class="info-text">
@@ -434,6 +465,42 @@
             <h3>1. 地図上のマーカー説明</h3>
             <div class="guide-grid">
                 <div class="guide-item">
+                    <div class="guide-icon bass">▲</div>
+                    <div class="guide-name">バス停</div>
+                    <div class="guide-desc">バス停留所（一部バス会社名表示）</div>
+                </div>
+
+                <div class="guide-item">
+                    <div class="guide-icon school-green">★</div>
+                    <div class="guide-name">小学校</div>
+                    <div class="guide-desc">小学校の学校施設</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon school-red">♥</div>
+                    <div class="guide-name">中学校</div>
+                    <div class="guide-desc">中学校の学校施設</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon school-blue">■</div>
+                    <div class="guide-name">高校</div>
+                    <div class="guide-desc">高等学校</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon school-pink">♠</div>
+                    <div class="guide-name">幼稚園</div>
+                    <div class="guide-desc">幼稚園</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon school-orange">♣</div>
+                    <div class="guide-name">幼保連携型認定こども園</div>
+                    <div class="guide-desc">幼保連携型認定こども園</div>
+                </div>
+                <div class="guide-item">
+                    <div class="guide-icon school-brown">●</div>
+                    <div class="guide-name">その他学校</div>
+                    <div class="guide-desc">中等教育学校、高等専門学校、短期大学、大学、特別支援学校、義務教育学校、各種学校、専修学校</div>
+                </div>
+                <div class="guide-item">
                     <div class="guide-icon hospital">★</div>
                     <div class="guide-name">病院</div>
                     <div class="guide-desc">20床以上の入院施設がある医療機関</div>
@@ -463,11 +530,7 @@
                     <div class="guide-name">介護サービス</div>
                     <div class="guide-desc">老人ホームやデイサービス、訪問介護等</div>
                 </div>
-                <div class="guide-item">
-                    <div class="guide-icon bass">▲</div>
-                    <div class="guide-name">バス停</div>
-                    <div class="guide-desc">バス停留所（一部バス会社名表示）</div>
-                </div>
+
             </div>
 
             <h3>2. 操作ボタンの使い方</h3>
@@ -509,6 +572,11 @@
                     <div class="guide-desc">初期化します（描写の全削除）</div>
                 </div>
                 <div class="guide-item">
+                    <div class="guide-icon print-btn">🖨️</div>
+                    <div class="guide-name">分割印刷</div>
+                    <div class="guide-desc">A4・A3、縦横を選択して2×2・3×3・4×4などの分割印刷</div>
+                </div>
+                <div class="guide-item">
                     <div class="guide-icon zu-btn">✏️</div>
                     <div class="guide-name">図形、テキスト描写</div>
                     <div class="guide-desc">円、四角形、テキスト文字を描写</div>
@@ -524,8 +592,8 @@
             <div class="info-text" style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
                 <p><b>■ 地図の種類</b><br>
                 1. オープンストリートマップ、航空写真（国土地理院）、国土地理院地図<br>
-                2. 過去の航空写真　1987～1990 1984～1986 1979～1983 1974～1978 1961～1969 1945～1950<br>
-                ※一部地域では表示されません</br>
+                2. 過去の航空写真 1987～1990 1984～1986 1979～1983 1974～1978 1961～1969 1945～1950<br>
+                ※一部地域では表示されません<br>
                 3. 災害ハザード：洪水（想定最大規模）、土石流警戒区域、急傾斜地の崩壊、地すべり、高潮浸水想定区域、津波浸水想定<br>
                 ※国土地理院・ハザードマップポータルサイトの配信データ</p>
             </div>
@@ -534,7 +602,7 @@
                 <p><b>■ 基本的な手順</b><br>
                 1. 検索ページで都道府県を選択し「地図を表示する」を押します。<br>
                 2. 地図画面が開いたら、右上の青色アイコン（設定）で表示したい施設を選択してください。<br>
-                3. マーカーをクリック（タップ）すると、施設の詳細情報や公式サイトへのリンクが表示されます。</br>
+                3. マーカーをクリック（タップ）すると、施設の詳細情報や公式サイトへのリンクが表示されます。<br>
                 4. 医療圏を選択すると、境界線と町名、人口が表示されます。</p>
             </div>
         </div>
@@ -573,22 +641,22 @@
                     <a href="https://kouseikyoku.mhlw.go.jp/hokkaido/gyomu/gyomu/hoken_kikan/code_ichiran.html" target="_blank" rel="noopener noreferrer">
                        北海道厚生局（北海道）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/tohoku/gyomu/gyomu/hoken_kikan/itiran.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/tohoku/gyomu/gyomu/hoken_kikan/itiran.html" target="_blank" rel="noopener noreferrer">
                        東北厚生局（青森 岩手 宮城 秋田 山形 福島）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/kantoshinetsu/chousa/shitei.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/kantoshinetsu/chousa/shitei.html" target="_blank" rel="noopener noreferrer">
                        関東信越厚生局（茨城 栃木 群馬 埼玉 千葉  東京 神奈川 新潟 山梨 長野）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/tokaihokuriku/gyomu/gyomu/hoken_kikan/shitei.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/tokaihokuriku/gyomu/gyomu/hoken_kikan/shitei.html" target="_blank" rel="noopener noreferrer">
                        東海北陸厚生局（富山 石川 岐阜 静岡 愛知  三重）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/kinki/tyousa/shinkishitei.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/kinki/tyousa/shinkishitei.html" target="_blank" rel="noopener noreferrer">
                        近畿厚生局（福井 滋賀 Kyoto 大阪 兵庫 奈良 和歌山）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/chugokushikoku/chousaka/iryoukikanshitei.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/chugokushikoku/chousaka/iryoukikanshitei.html" target="_blank" rel="noopener noreferrer">
                        中国四国厚生局（鳥取 島根 岡山 広島 山口）
                     </a><br>
-                    <a href="https://kouseikyoku.mhlw.go.jp/shikoku/gyomu/gyomu/hoken_kikan/shitei/index.html" target=_blank" rel="noopener noreferrer">
+                    <a href="https://kouseikyoku.mhlw.go.jp/shikoku/gyomu/gyomu/hoken_kikan/shitei/index.html" target="_blank" rel="noopener noreferrer">
                        四国厚生支局（香川 徳島 愛媛 高知 ）
                     </a><br>
                     <a href="https://kouseikyoku.mhlw.go.jp/kyushu/gyomu/gyomu/hoken_kikan/index_00004.html" target="_blank" rel="noopener noreferrer">
@@ -597,7 +665,7 @@
                 </li>
                 <li>
                     <b>医療・介護関係のその他サイト</b><br> 
-                    <a href="https://data.e-gov.go.jp/data/dataset/mhlw_20150115_0041/resource/9e27be82-2570-4018-95cf-fb2c5975d69f" target=_blank" rel="noopener noreferrer">
+                    <a href="https://data.e-gov.go.jp/data/dataset/mhlw_20150115_0041/resource/9e27be82-2570-4018-95cf-fb2c5975d69f" target="_blank" rel="noopener noreferrer">
                        全国の二次医療圏（e-GOV データポータル）
                     </a><br>
                     <a href="https://www.e-stat.go.jp/stat-search/database?page=1&toukei=00200521&tstat=000001136464" target="_blank" rel="noopener noreferrer">
@@ -609,7 +677,7 @@
                 </li>
                 <li>
                     <b>その他サイト</b><br> 
-                    <a href="https://hmc48.github.io/hgame01/" target=_blank" rel="noopener noreferrer">
+                    <a href="https://hmc48.github.io/hgame01/" target="_blank" rel="noopener noreferrer">
                        レトロなゲーム風
                     </a><br>
                 </li>
